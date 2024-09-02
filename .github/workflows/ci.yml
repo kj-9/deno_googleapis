@@ -11,15 +11,15 @@ jobs:
       - uses: denoland/setup-deno@v1
       - name: Run CI
         run: deno task lint && deno task test && deno task build
-      
+
       - name: Install deployctl
         run: deno install -Arf jsr:@deno/deployctl
-        if: {{ github.ref == 'refs/heads/main' or startsWith(github.ref, 'refs/tags/') }}
+        if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') }}
       
       - name: Deploy to Deno Deploy preview
         run: deployctl deploy --project deno-googleapis-cli --entrypoint server/main.ts
-        if: {{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.ref == 'refs/heads/main' }}
       
       - name: Deploy to Deno Deploy production
         run: deployctl deploy --project deno-googleapis-cli --entrypoint server/main.ts --prod
-        if: {{ startsWith(github.ref, 'refs/tags/') }}
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
