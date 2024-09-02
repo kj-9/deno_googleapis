@@ -8,5 +8,13 @@
     "fmt": "deno fmt",
     "dev": "deno run --watch --allow-read=. --allow-net --allow-env --allow-hrtime server/main.ts",
     "show-help": "deno run --allow-net http://localhost:8000/v1/youtube:v3.ts -h"
+  },
+  "deploy": {
+    "project": "1c239cfb-1eac-48f1-8854-133adb03c8bf",
+    "exclude": [
+      "**/node_modules"
+    ],
+    "include": [],
+    "entrypoint": "server/main.ts"
   }
 }
