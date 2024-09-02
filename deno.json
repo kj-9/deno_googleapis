@@ -1,0 +1,6 @@
+{
+  "tasks": {
+    "dev": "deno run --watch --allow-read=. --allow-net --allow-env --allow-hrtime server/main.ts",
+    "show-help": "deno run --allow-net http://localhost:8000/v1/youtube:v3.ts -h"
+  }
+}
