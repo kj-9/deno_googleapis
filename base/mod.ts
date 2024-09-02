@@ -45,8 +45,8 @@ function denoVersion() {
   // TODO: optionally, other runtime environments could be detected
   // and populated differently within the header. 0.0.0 is meant
   // to indicate unknown runtime Deno version.
-  let version = '0.0.0';
-  if (typeof Deno !== 'undefined' && Deno?.version?.deno) {
+  let version = "0.0.0";
+  if (typeof Deno !== "undefined" && Deno?.version?.deno) {
     version = Deno.version.deno;
   }
   return version;
