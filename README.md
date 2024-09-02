@@ -20,7 +20,8 @@ https://deno-googleapis-cli.deno.dev/v1/youtube:v3.ts
 
 ```sh
 $ deno run --allow-net https://deno-googleapis-cli.deno.dev/v1/youtube:v3.ts -h
-
+```
+```
 Usage: YouTube
 
 Description:
@@ -55,7 +56,8 @@ the YouTube Data API v3:
 
 ```sh
 $ deno run --allow-net https://deno-googleapis-cli.deno.dev/v1/youtube:v3.ts playlistItemsList -h
-
+```
+```
 Usage: YouTube playlistItemsList
 
 Description:
@@ -102,4 +104,20 @@ deno run --allow-net https://deno-googleapis-cli.deno.dev/v1/youtube:v3.ts \
   --playlistId XXXX \
   --part 'contentDetails,id,snippet' \
   --maxResults 50
+```
+
+## Install
+
+You can install the generated cli with `deno install` command.
+
+For example, you can install the YouTube Data API v3 cli:
+
+```sh
+$ deno install -g -n youtube-v3 --allow-net https://deno-googleapis-cli.deno.dev/v1/youtube:v3.ts
+```
+
+Then you can run the cli with the command name:
+
+```sh
+$ youtube-v3 -h
 ```
