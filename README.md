@@ -1,4 +1,4 @@
-# deno_googleapis
+# deno_googleapis_cli
 
 A Google API client library with cli (generator) for Deno.
 
