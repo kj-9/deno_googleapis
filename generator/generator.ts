@@ -185,45 +185,39 @@ function encodeBase64(uint8: Uint8Array): string {
     return s.replaceAll("'", "\\'");
   }
 
-  #getParams(method: Method): Param[] {
-    const params: Param[] = [];
-    for (const [name, param] of method.pathParams) {
-      assert(param.required, "path params must be required");
-      params.push({
-        name,
-        schema: param,
-        description: param.description,
-      });
+  // see: https://cliffy.io/docs@v0.25.4/command/types#build-in-types
+  #parseTypeCliffy(type: string): string {
+    switch (type) {
+      case "boolean":
+        return "boolean";
+      case "string":
+        return "string";
+      case "integer":
+        return "integer";
+      case "number":
+        return "number";
+      default:
+        return "string";
     }
-    if (method.request) {
-      params.push({
-        name: "req",
-        schema: method.request,
-      });
-    }
-    if (method.queryParams.length > 0) {
-      const name = `${method.pascalCaseName}Options`;
-      const schema: JsonSchema = {
-        id: name,
-        type: "object",
-        description:
-          `Additional options for ${this.#name}#${method.camelCaseName}.`,
-        properties: Object.fromEntries(method.queryParams),
-      };
-      this.#schema.schemas![name] = schema;
-      params.push({
-        name: "opts",
-        schema: { $ref: name },
-        default: true,
-      });
-    }
-    return params;
   }
 
   #writeCliCode() {
     this.#w.writeLine(`
-//hello from CliGenerator
 import { Command } from 'jsr:@cliffy/command@^1.0.0-rc.4';
+
+// helper function to get the request headers
+function getApiKeyClient(apiKey: string): CredentialsClient {
+  const client: CredentialsClient = {
+    getRequestHeaders: (url?: string): Promise<Record<string, string>> => {
+    const header = {
+      'X-goog-api-key': apiKey,
+    };
+    
+    return Promise.resolve(header);
+    },
+  };
+  return client;
+};
 
 function command() {
 return new Command()
@@ -237,20 +231,34 @@ return new Command()
           method.description ? this.#escapeSingleQuote(method.description) : ""
         }')`,
       );
-      this.#w.writeLine(`    .action((options: any, ...args: string[]) => {
-console.log('sub command called');
-})`);
+      this.#w.writeLine(
+        `    .action(async (options: any, ...args: string[]) => {
+
+const client = getApiKeyClient(options.apiKey);
+const youtube = new YouTube(client);
+const result = await youtube.${method.camelCaseName}(options);
+
+console.log(JSON.stringify(result, null, 2));
+})`,
+      );
 
       if (method.queryParams.length > 0) {
         const qparams = Object.fromEntries(method.queryParams);
 
+        // apiKey is common option
+        this.#w.writeLine(`    .option('--apiKey <apiKey:string>', 'API Key')`);
+
         for (const [name, param] of Object.entries(qparams)) {
+          const description = param.description
+            ? this.#escapeSingleQuote(param.description)
+            : "";
+          const type = this.#parseTypeCliffy(param.type);
+          const optExpr = param.required
+            ? `<${name}:${type}>`
+            : `[${name}:${type}]`;
+
           this.#w.writeLine(
-            `    .option('--${name} <${name}>', '${
-              param.description
-                ? this.#escapeSingleQuote(param.description)
-                : ""
-            }', { required: ${param.required} })`,
+            `    .option('--${name} ${optExpr}', '${description}')`,
           );
         }
       }
