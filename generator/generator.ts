@@ -225,7 +225,8 @@ function encodeBase64(uint8: Uint8Array): string {
 //hello from CliGenerator
 import { Command } from 'jsr:@cliffy/command@^1.0.0-rc.4';
 
-await new Command()
+function command() {
+return new Command()
     .name('${this.#name}')
     //.version(version)
     .description('${this.#schema.description ? this.#schema.description : ""}')
@@ -251,8 +252,10 @@ await new Command()
         }
       }
     }
-
-    this.#w.writeLine(`    .parse(Deno.args);`);
+    this.#w.writeLine(`}`);
+    this.#w.writeLine(`if (import.meta.main) {
+  await command().parse(Deno.args);
+}`);
   }
 
   #writeDocComment(s: string, params?: Param[]) {
