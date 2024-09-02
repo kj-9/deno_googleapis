@@ -21,6 +21,7 @@ https://deno-googleapis-cli.deno.dev/v1/youtube:v3.ts
 ```sh
 $ deno run --allow-net https://deno-googleapis-cli.deno.dev/v1/youtube:v3.ts -h
 ```
+
 ```
 Usage: YouTube
 
@@ -57,6 +58,7 @@ the YouTube Data API v3:
 ```sh
 $ deno run --allow-net https://deno-googleapis-cli.deno.dev/v1/youtube:v3.ts playlistItemsList -h
 ```
+
 ```
 Usage: YouTube playlistItemsList
 
