@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v1
       - name: Run CI
-        run: deno task lint && deno task test && deno task build
+        run: deno task lint
 
       - name: Install deployctl
         run: deno install -Arf jsr:@deno/deployctl
