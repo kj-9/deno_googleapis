@@ -170,6 +170,8 @@ function encodeBase64(uint8: Uint8Array): string {
       );
     }
 
+    this.#writeCliCode();
+
     return this.#w.toString();
   }
 
@@ -177,6 +179,80 @@ function encodeBase64(uint8: Uint8Array): string {
    * comment. */
   #escapeDocs(s: string): string {
     return s.replaceAll("\*/", "*\\/");
+  }
+
+  #escapeSingleQuote(s: string): string {
+    return s.replaceAll("'", "\\'");
+  }
+
+  #getParams(method: Method): Param[] {
+    const params: Param[] = [];
+    for (const [name, param] of method.pathParams) {
+      assert(param.required, "path params must be required");
+      params.push({
+        name,
+        schema: param,
+        description: param.description,
+      });
+    }
+    if (method.request) {
+      params.push({
+        name: "req",
+        schema: method.request,
+      });
+    }
+    if (method.queryParams.length > 0) {
+      const name = `${method.pascalCaseName}Options`;
+      const schema: JsonSchema = {
+        id: name,
+        type: "object",
+        description:
+          `Additional options for ${this.#name}#${method.camelCaseName}.`,
+        properties: Object.fromEntries(method.queryParams),
+      };
+      this.#schema.schemas![name] = schema;
+      params.push({
+        name: "opts",
+        schema: { $ref: name },
+        default: true,
+      });
+    }
+    return params;
+  }
+
+  #writeCliCode() {
+    this.#w.writeLine(`
+//hello from CliGenerator
+import { Command } from 'jsr:@cliffy/command@^1.0.0-rc.4';
+
+await new Command()
+    .name('${this.#name}')
+    //.version(version)
+    .description('${this.#schema.description ? this.#schema.description : ""}')
+`);
+    for (const method of this.#methods) {
+      this.#w.writeLine(
+        `    .command('${method.camelCaseName}', '${
+          method.description ? this.#escapeSingleQuote(method.description) : ""
+        }')`,
+      );
+
+      if (method.queryParams.length > 0) {
+        const qparams = Object.fromEntries(method.queryParams);
+
+        for (const [name, param] of Object.entries(qparams)) {
+          this.#w.writeLine(
+            `    .option('--${name} <${name}>', '${
+              param.description
+                ? this.#escapeSingleQuote(param.description)
+                : ""
+            }', { required: ${param.required} })`,
+          );
+        }
+      }
+    }
+
+    this.#w.writeLine(`    .parse(Deno.args);`);
   }
 
   #writeDocComment(s: string, params?: Param[]) {
