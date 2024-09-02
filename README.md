@@ -6,20 +6,20 @@ Forked from [deno_googleapis](https://github.com/lucacasonato/deno_googleapis)
 which provides a Google API client library for Deno. This fork adds a cli
 (generator) to generated the client library.
 
-generated codes are deployed on https://kj-deno-googleapis.deno.dev/
+generated codes are deployed on https://deno-googleapis-cli.deno.dev/
 
 ## Usage
 
 You can run the generated cli with `deno run` command. For each api, there is a
 `.ts` file which contains the generated cli.
 
-You can check the available apis at https://kj-deno-googleapis.deno.dev/
+You can check the available apis at https://deno-googleapis-cli.deno.dev/
 
 For example, you can show the help message for the YouTube Data API v3:
-https://kj-deno-googleapis.deno.dev/v1/youtube:v3.ts
+https://deno-googleapis-cli.deno.dev/v1/youtube:v3.ts
 
 ```sh
-$ deno run --allow-net https://kj-deno-googleapis.deno.dev/v1/youtube:v3.ts -h
+$ deno run --allow-net https://deno-googleapis-cli.deno.dev/v1/youtube:v3.ts -h
 
 Usage: YouTube
 
@@ -54,7 +54,7 @@ You can show the help message for the `playlistItemsList` subcommand (method) of
 the YouTube Data API v3:
 
 ```sh
-$ deno run --allow-net https://kj-deno-googleapis.deno.dev/v1/youtube:v3.ts playlistItemsList -h
+$ deno run --allow-net https://deno-googleapis-cli.deno.dev/v1/youtube:v3.ts playlistItemsList -h
 
 Usage: YouTube playlistItemsList
 
@@ -96,7 +96,7 @@ You can run the `playlistItemsList` subcommand with the `--apiKey` option to get
 the playlist items of a playlist:
 
 ```sh
-deno run --allow-net https://kj-deno-googleapis.deno.dev/v1/youtube:v3.ts \
+deno run --allow-net https://deno-googleapis-cli.deno.dev/v1/youtube:v3.ts \
   playlistItemsList \
   --apiKey XXXXX \
   --playlistId XXXX \
