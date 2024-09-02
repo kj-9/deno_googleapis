@@ -237,6 +237,9 @@ return new Command()
           method.description ? this.#escapeSingleQuote(method.description) : ""
         }')`,
       );
+      this.#w.writeLine(`    .action((options: any, ...args: string[]) => {
+console.log('sub command called');
+})`);
 
       if (method.queryParams.length > 0) {
         const qparams = Object.fromEntries(method.queryParams);
