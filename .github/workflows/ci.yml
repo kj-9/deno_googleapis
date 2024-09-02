@@ -17,9 +17,9 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') }}
       
       - name: Deploy to Deno Deploy preview
-        run: deployctl deploy --project deno-googleapis-cli --entrypoint server/main.ts
+        run: deployctl deploy --project deno-googleapis-cli --entrypoint server/main.ts --token ${{ secrets.DENO_DEPLOY_TOKEN }}
         if: ${{ github.ref == 'refs/heads/main' }}
       
       - name: Deploy to Deno Deploy production
-        run: deployctl deploy --project deno-googleapis-cli --entrypoint server/main.ts --prod
+        run: deployctl deploy --project deno-googleapis-cli --entrypoint server/main.ts --prod --token ${{ secrets.DENO_DEPLOY_TOKEN }}
         if: ${{ startsWith(github.ref, 'refs/tags/') }}
