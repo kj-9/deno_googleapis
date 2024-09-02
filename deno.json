@@ -1,5 +1,5 @@
 {
-  "@kj-9/deno_googleapis_cli",
+  "name": "@kj-9/deno-googleapis-cli",
   "version": "0.0.0-a",
   "description": "Deno Google APIs CLI",
   "entry": "server/main.ts",
