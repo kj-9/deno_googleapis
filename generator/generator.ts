@@ -219,6 +219,31 @@ function getApiKeyClient(apiKey: string): CredentialsClient {
   return client;
 };
 
+// helper function to page through results
+async function getPaginatedResults(func: (opts: any) => Promise<any>, opts: any): Promise<any[]> {
+  let nextPageToken = ':firstTry:';
+  let items: any[] = [];
+  
+  const result = await func(opts)
+
+  while (nextPageToken) {
+    console.log('fetching page', nextPageToken);
+    const result = await func(opts)
+
+    if (result?.items) {
+      items = items.concat(result.items);
+    }
+    if (result?.nextPageToken) {
+      nextPageToken = result.nextPageToken;
+      opts.pageToken = nextPageToken;
+    } else {
+      break;
+    }
+  }
+  return items;
+}
+
+
 function command() {
 return new Command()
     .name('${this.#name}')
@@ -236,7 +261,7 @@ return new Command()
 
 const client = getApiKeyClient(options.apiKey);
 const youtube = new YouTube(client);
-const result = await youtube.${method.camelCaseName}(options);
+const result = await getPaginatedResults((opt) => youtube.${method.camelCaseName}(opt), options);
 
 console.log(JSON.stringify(result, null, 2));
 })`,
