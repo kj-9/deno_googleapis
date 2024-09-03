@@ -109,7 +109,7 @@ function home(req: Request): Response {
     <p>For example, you can install the YouTube Data API v3 cli:</p>
     <pre><code>$ deno install -g -n youtube --allow-net ${origin}/v1/youtube:v3.ts</code></pre>
     <p>Then you can run the cli with the command name:</p>
-    <pre><code>$ youtube-v3 -h</code></pre>
+    <pre><code>$ youtube -h</code></pre>
     <h2>Example to use api client</h2>
     <pre><code>// Import the client
 import { ServiceAccount, Spanner } from "${origin}/v1/spanner:v1.ts";
