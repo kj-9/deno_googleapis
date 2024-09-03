@@ -47,10 +47,57 @@ async function staticFiles(
 function home(req: Request): Response {
   const origin = new URL(req.url).origin;
   const html = `<!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Google APIs and CLI for Deno</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h1, h2 {
+        color: #1a73e8;
+      }
+      pre {
+        background-color: #f5f5f5;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-x: auto;
+      }
+      code {
+        font-family: 'Courier New', Courier, monospace;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        table-layout: fixed;
+      }
+      th, td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      th:nth-child(1), td:nth-child(1) { width: 25%; }
+      th:nth-child(2), td:nth-child(2) { width: 35%; font-size: 0.9em; }
+      th:nth-child(3), td:nth-child(3) { width: 35%; font-size: 0.9em; }
+      th:nth-child(4), td:nth-child(4) { width: 5%; }
+      td:nth-child(2) pre, td:nth-child(3) pre {
+        margin: 0;
+        white-space: pre-wrap;
+      }
+    </style>
   </head>
   <body>
     <h1>Google APIs and CLI for Deno</h1>
@@ -58,17 +105,11 @@ function home(req: Request): Response {
       This service provides auto-generated Google API clients and CLI for Deno.
     </p>
     <h2>Example to install cli</h2>
-<p>You can install the generated cli with <code>deno install</code> command.
-
-
-For example, you can install the YouTube Data API v3 cli:
-
-<pre><code>$ deno install -g -n youtube --allow-net https://deno-googleapis-cli.deno.dev/v1/youtube:v3.ts</pre></code>
-
-Then you can run the cli with the command name:
-
-<pre><code>$ youtube-v3 -h</pre></code>
-</p>
+    <p>You can install the generated cli with <code>deno install</code> command.</p>
+    <p>For example, you can install the YouTube Data API v3 cli:</p>
+    <pre><code>$ deno install -g -n youtube --allow-net ${origin}/v1/youtube:v3.ts</code></pre>
+    <p>Then you can run the cli with the command name:</p>
+    <pre><code>$ youtube-v3 -h</code></pre>
     <h2>Example to use api client</h2>
     <pre><code>// Import the client
 import { ServiceAccount, Spanner } from "${origin}/v1/spanner:v1.ts";
@@ -82,15 +123,14 @@ const spanner = new Spanner(auth);
 
 // List Spanner instances.
 const instances = await spanner.listInstances("projects/my-project");
-console.log(instances);
-    </code></pre>
+console.log(instances);</code></pre>
     <h2>Services</h2>
     <table>
       <thead>
         <tr>
           <th>Service</th>
           <th>Install</th>
-          <th>Usage</th>
+          <th>Use in Code</th>
           <th>Docs</th>
         </tr>
       </thead>
@@ -104,14 +144,16 @@ ${
       return `
         <tr>
           <td><a href="${url}">${service.title}</a></td>
-          <td><pre>deno install -g -n ${name.toLowerCase()} --allow-net ${url}</pre></td>
-          <td><pre>import { ${name} } from "${url}";</pre></td>
+          <td><pre><code>deno install -g -n ${name.toLowerCase()} --allow-net ${url}</code></pre></td>
+          <td><pre><code>import { ${name} } from "${url}";</code></pre></td>
           <td><a href="https://doc.deno.land/${url}">Docs</a></td>
         </tr>`;
     }).join("\n")
   }
-
-    `;
+      </tbody>
+    </table>
+  </body>
+</html>`;
 
   return new Response(html, {
     headers: {
@@ -119,7 +161,6 @@ ${
     },
   });
 }
-
 async function code(
   req: Request,
   { api, version }: Record<string, string>,
