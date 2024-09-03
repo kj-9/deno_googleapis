@@ -51,7 +51,7 @@ function home(req: Request): Response {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Google APIs and CLI for Deno</title>
+    <title>Google API CLIs for Deno</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -100,9 +100,9 @@ function home(req: Request): Response {
     </style>
   </head>
   <body>
-    <h1>Google APIs and CLI for Deno</h1>
+    <h1>Google API CLIs for Deno</h1>
     <p>
-      This service provides auto-generated Google API clients and CLI for Deno.
+      This service provides auto-generated Google API CLIs for Deno.
     </p>
     <h2>Example to install cli</h2>
     <p>You can install the generated cli with <code>deno install</code> command.</p>
@@ -110,28 +110,13 @@ function home(req: Request): Response {
     <pre><code>$ deno install -g -n youtube --allow-net ${origin}/v1/youtube:v3.ts</code></pre>
     <p>Then you can run the cli with the command name:</p>
     <pre><code>$ youtube -h</code></pre>
-    <h2>Example to use api client</h2>
-    <pre><code>// Import the client
-import { ServiceAccount, Spanner } from "${origin}/v1/spanner:v1.ts";
-
-// Read the service account key.
-const file = Deno.readTextFileSync("service-account.json");
-const auth = ServiceAccount.fromJson(JSON.parse(file));
-
-// Instantiate the client.
-const spanner = new Spanner(auth);
-
-// List Spanner instances.
-const instances = await spanner.listInstances("projects/my-project");
-console.log(instances);</code></pre>
     <h2>Services</h2>
     <table>
       <thead>
         <tr>
           <th>Service</th>
+          <th>Run</th>
           <th>Install</th>
-          <th>Use in Code</th>
-          <th>Docs</th>
         </tr>
       </thead>
       <tbody>
@@ -144,11 +129,10 @@ ${
       return `
         <tr>
           <td><a href="${url}">${service.title}</a></td>
+          <td><pre><code>deno run --allow-net ${url} -h</code></pre></td>
           <td><pre><code>deno install -g -n ${name.toLowerCase()} --allow-net ${url}</code></pre></td>
-          <td><pre><code>import { ${name} } from "${url}";</code></pre></td>
-          <td><a href="https://doc.deno.land/${url}">Docs</a></td>
         </tr>`;
-    }).join("\n")
+    }).join("\n") 
   }
       </tbody>
     </table>

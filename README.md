@@ -1,10 +1,9 @@
 # deno_googleapis_cli
 
-A Google API client library with cli (generator) for Deno.
+A Google API CLIs (generator) for Deno.
 
-Forked from [deno_googleapis](https://github.com/lucacasonato/deno_googleapis)
-which provides a Google API client library for Deno. This fork adds a cli
-(generator) to generated the client library.
+Forked from [deno_googleapis](https://github.com/lucacasonato/deno_googleapis).
+This fork adds a cli (generator) to generated the client library.
 
 generated codes are deployed on https://deno-googleapis-cli.deno.dev/
 
