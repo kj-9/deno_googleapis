@@ -132,7 +132,7 @@ ${
           <td><pre><code>deno run --allow-net ${url} -h</code></pre></td>
           <td><pre><code>deno install -g -n ${name.toLowerCase()} --allow-net ${url}</code></pre></td>
         </tr>`;
-    }).join("\n") 
+    }).join("\n")
   }
       </tbody>
     </table>
