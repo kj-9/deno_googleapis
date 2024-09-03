@@ -115,11 +115,11 @@ You can install the generated cli with `deno install` command.
 For example, you can install the YouTube Data API v3 cli:
 
 ```sh
-$ deno install -g -n youtube-v3 --allow-net https://deno-googleapis-cli.deno.dev/v1/youtube:v3.ts
+$ deno install -g -n youtube --allow-net https://deno-googleapis-cli.deno.dev/v1/youtube:v3.ts
 ```
 
 Then you can run the cli with the command name:
 
 ```sh
-$ youtube-v3 -h
+$ youtube -h
 ```

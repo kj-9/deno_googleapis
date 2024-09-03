@@ -50,14 +50,26 @@ function home(req: Request): Response {
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Google APIs for Deno</title>
+    <title>Google APIs and CLI for Deno</title>
   </head>
   <body>
-    <h1>Google APIs for Deno</h1>
+    <h1>Google APIs and CLI for Deno</h1>
     <p>
-      This service provides auto-generated Google API clients for Deno.
+      This service provides auto-generated Google API clients and CLI for Deno.
     </p>
-    <h2>Example</h2>
+    <h2>Example to install cli</h2>
+<p>You can install the generated cli with <code>deno install</code> command.
+
+
+For example, you can install the YouTube Data API v3 cli:
+
+<pre><code>$ deno install -g -n youtube --allow-net https://deno-googleapis-cli.deno.dev/v1/youtube:v3.ts</pre></code>
+
+Then you can run the cli with the command name:
+
+<pre><code>$ youtube-v3 -h</pre></code>
+</p>
+    <h2>Example to use api client</h2>
     <pre><code>// Import the client
 import { ServiceAccount, Spanner } from "${origin}/v1/spanner:v1.ts";
 
@@ -77,6 +89,7 @@ console.log(instances);
       <thead>
         <tr>
           <th>Service</th>
+          <th>Install</th>
           <th>Usage</th>
           <th>Docs</th>
         </tr>
@@ -91,6 +104,7 @@ ${
       return `
         <tr>
           <td><a href="${url}">${service.title}</a></td>
+          <td><pre>deno install -g -n ${name.toLowerCase()} --allow-net ${url}</pre></td>
           <td><pre>import { ${name} } from "${url}";</pre></td>
           <td><a href="https://doc.deno.land/${url}">Docs</a></td>
         </tr>`;
